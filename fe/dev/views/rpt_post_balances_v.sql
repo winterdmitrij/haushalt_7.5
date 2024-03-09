@@ -18,8 +18,7 @@ FROM   (SELECT  "0"               AS rank,
                 SUM(gbv.amt)      AS sld
         FROM   (grb_operations_v  AS gbv 
         INNER   JOIN cat_posts_v  AS cpv ON cpv.pd_id = gbv.pd_id)
-        GROUP BY LEFT(cpv.rank, 1),
-                 gbv.prd
+        GROUP BY gbv.prd
         UNION ALL
         SELECT  LEFT(cpv.rank, 1) AS rank, 
                 gbv.prd           AS prd, 
