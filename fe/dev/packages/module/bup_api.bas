@@ -1,7 +1,7 @@
 Attribute VB_Name = "bup_api"
 '========================================================================================
-'=                  BackUps-API
-'= Version: 7,5
+'=                  BackUps-Schnittstelle
+'= Version: 7.5
 '========================================================================================
 Option Compare Database
 
@@ -9,7 +9,7 @@ Option Compare Database
 '************************************ B A C K U P S *************************************
 '*******************************************|********************************************
 '*       Speicherung einer Kopie von der Anwendung in \backups\application\ - Verzeichnis
-'* Version: 7,5
+'* Version: 7.5
 '****************************************************************************************
 Sub save_application()
     ' Aktuälles Datum
@@ -48,7 +48,7 @@ End Sub
 '****************************************************************************************
 '*       Erstellung von INSERT INTO - Skripten für allen Tabellen der Anwendung und
 '*       Speicherung deren in \backups\database\ - Verzeichnis
-'* Version: 7,5
+'* Version: 7.5
 '****************************************************************************************
 Public Sub save_database()
     ' Variablen
@@ -115,7 +115,7 @@ End Sub
 '*************************************** F I L E ****************************************
 '*******************************************|********************************************
 '*       Generiert volle Dateiname bzg Tabellenname zurück
-'* Version: 7,5
+'* Version: 7.5
 '****************************************************************************************
 Private Function generate_fileFullName(pin_tableName As String) As String
     Let generate_fileFullName = CurrentProject.Path & _
@@ -125,7 +125,7 @@ End Function
 
 '****************************************************************************************
 '*       Erstellt die Datei, wenn die nicht vorhanden ist
-'* Version: 7,5
+'* Version: 7.5
 '****************************************************************************************
 Private Sub create_file_ifNotExist(pin_fileFullName As String)
     ' Prüfen, ob die Datei vorhanden ist
@@ -136,7 +136,7 @@ End Sub
 
 '****************************************************************************************
 '*       Prüft, ob eine Datei vorhanden ist
-'* Version: 7,5
+'* Version: 7.5
 '****************************************************************************************
 Private Function check_fileExist(pin_fullFileName As String) As Boolean
     Let check_fileExist = (Dir(pin_fullFileName) <> "")
@@ -146,7 +146,7 @@ End Function
 '************************************* S C R I P T **************************************
 '*******************************************|********************************************
 '*       Gibt erste Zeile des Scripts zurück: INSERT INTO tbl_name
-'* Version: 7,5
+'* Version: 7.5
 '****************************************************************************************
 Private Function get_firstRow(pin_tblName As String) As String
     Let get_firstRow = "INSERT INTO " & pin_tblName
@@ -154,7 +154,7 @@ End Function
 
 '****************************************************************************************
 '*       Gibt zweite Zeile des Scripts zurück: (col1, col2) VALUES
-'* Version: 7,5
+'* Version: 7.5
 '****************************************************************************************
 Private Function get_secondRow(pin_arr_colList() As String) As String
     Dim str_colLost As String
@@ -166,7 +166,7 @@ End Function
 
 '****************************************************************************************
 '*       Gibt die restliche Zeilen (mit Werten) des Skripts zurück
-'* Version: 7,5
+'* Version: 7.5
 '****************************************************************************************
 Private Function get_valueRow(pin_valueRow As String) As String
     Let get_valueRow = chr(13) & chr(10) & "       (" & pin_valueRow & "),"
