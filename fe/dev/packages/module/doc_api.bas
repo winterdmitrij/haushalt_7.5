@@ -73,10 +73,18 @@ End Function
 '****************************** P O S T E N / K O N T E N *******************************
 '*******************************************|********************************************
 '*       Gibt die Post-Anzahl zurück, der bereits in Dokumenten benutzt wurde
-'* Version: 7.5
+'* Version: 7.6
 '****************************************************************************************
-Public Function get_posCount_withPost(pin_pdId As Integer) As Integer
-    Let get_posCount_withPost = select_cntPositions_by_pdId(pin_pdId)
+Public Function get_pstDtl_inUse(pin_pdId As Integer) As Boolean
+    Let get_pstDtl_inUse = doc_tapi.check_pstDtl_inUse(pin_pdId)
+End Function
+
+'****************************************************************************************
+'*       Gibt die Konten-Anzahl zurück, der bereits in Dokumenten benutzt wurde
+'* Version: 7.6
+'****************************************************************************************
+Public Function get_accDtl_inUse(pin_adId As Integer) As Boolean
+    Let get_accDtl_inUse = doc_tapi.check_accDtl_inUse(pin_adId)
 End Function
 
 

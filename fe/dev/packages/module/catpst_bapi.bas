@@ -45,13 +45,13 @@ Public Function create_pstGrp(pin_pgDsg As String, _
                               pin_taId As Integer) As String
     Dim l_req As Integer
     
-    ' Prüfen
+check:
     If catpst_tapi.check_pgExist(pin_pgDsg) Then
         Let create_pstGrp = "Postgruppe '" & pin_pgDsg & "' existiert bereits."
         Exit Function
     End If
     
-    ' Erstellen
+create:
     Let l_req = catpst_tapi.insert_new_pstGrp(pin_pgDsg, pin_taId)
     
     If l_req = 200 Then
@@ -69,13 +69,13 @@ Public Function create_pstDtl(pin_pdDsg As String, _
                               pin_pgId As Integer) As String
     Dim l_req As Integer
     
-    ' Prüfen
+check:
     If catpst_tapi.check_pdExist(pin_pdDsg) Then
         Let create_pstDtl = "Post '" & pin_pdDsg & "' existiert bereits."
         Exit Function
     End If
     
-    ' Erstellen
+create:
     Let l_req = catpst_tapi.insert_new_pstDtl(pin_pdDsg, pin_pgId)
     
     If l_req = 200 Then
@@ -90,16 +90,18 @@ End Function
 '*******************************************|********************************************
 '*       Löscht eine Postgruppe
 '* Version: 7.6
+'* ToDo: Check-Funktionen auslagern
 '****************************************************************************************
 Public Function delete_pstGrp(pin_pgId As Integer) As String
     Dim l_req As Integer
     Dim l_msg As String
     Let l_msg = "Die Postgruppe mit dem Id: " & pin_pgId
     
-    ' Prüfen
+check:
+    ' ToDo: *
     ' Anzahl der von der Postgruppe abhängigen Posten
     If catpst_tapi.select_cntPstDtl_by_pgId(pin_pgId) > 0 Then
-        Let delete_pstGrp = l_msg & " darf nicht gelöscht werden!" & _
+        Let delete_pstGrp = l_msg & " darf nicht gelöscht werden!" & vbNewLine & _
                             "Es gibt die von der Postgruppe abhängige Posten."
         
         Exit Function
@@ -107,12 +109,12 @@ Public Function delete_pstGrp(pin_pgId As Integer) As String
     
     ' Prüfen, ob die Postgruppe aktiv ist
     If catpst_tapi.check_pgActiv(pin_pgId) Then
-        Let delete_pstGrp = l_msg & " darf nicht gelöscht werden!" & _
+        Let delete_pstGrp = l_msg & " darf nicht gelöscht werden!" & vbNewLine & _
                             "Die Postgruppe ist aktiv."
         Exit Function
     End If
     
-    ' Löschen
+delete:
     Let l_req = catpst_tapi.delete_pstGrp_by_pgId(pin_pgId)
     
     If l_req = 200 Then
@@ -125,16 +127,18 @@ End Function
 '****************************************************************************************
 '*       Löscht einen Post
 '* Version: 7.6
+'* ToDo: Check-Funktionen auslagern
 '****************************************************************************************
 Public Function delete_pstDtl(pin_pdId As Integer) As String
     Dim l_req As Integer
     Dim l_msg As String
     Let l_msg = "Der Post mit dem Id: " & pin_pdId
     
-    ' Prüfen
+check:
+    ' ToDo: *
     ' Anzahl der Posten, die in Documenten bereits benutzt wurde
-    If doc_api.get_posCount_withPost(pin_pdId) > 0 Then
-        Let delete_pstDtl = l_msg & " darf nicht gelöscht werden!" & _
+    If doc_api.get_pstDtl_inUse(pin_pdId) Then
+        Let delete_pstDtl = l_msg & " darf nicht gelöscht werden!" & vbNewLine & _
                             "Es wurde der Post in Dokumenten benutzt."
         
         Exit Function
@@ -142,12 +146,12 @@ Public Function delete_pstDtl(pin_pdId As Integer) As String
     
     ' Prüfen, ob der Post aktiv ist
     If catpst_tapi.check_pdActiv(pin_pdId) Then
-        Let delete_pstDtl = l_msg & " darf nicht gelöscht werden!" & _
+        Let delete_pstDtl = l_msg & " darf nicht gelöscht werden!" & vbNewLine & _
                             "Der Post ist aktiv."
         Exit Function
     End If
     
-    ' Löschen
+delete:
     Let l_req = catpst_tapi.delete_pstDtl_by_pdId(pin_pdId)
     
     If l_req = 200 Then

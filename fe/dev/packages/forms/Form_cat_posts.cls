@@ -66,37 +66,40 @@ Private Sub btn_close_Click()
     Call cat_api.set_cur_pgid(0)
     
     ' Formular schließen
-    Call frm_xapi.cls_frm(Me.name, False)
+    Call frm_api.close_form(Me.name, False)
 End Sub
 
 
-'**********************************************************
-'*            Datensatzmanipulation
-'**********************************************************
-' btn_add
+'************************** D A T E N M A N I P U L A T I O N ***************************
+'*******************************************|********************************************
+'*       Post hinzufügen
+'* Version: 7.6
+'****************************************************************************************
 Private Sub btn_add_Click()
     ' Neue Post-Bezeichnung erhalten
     Dim new_pdDsg As String
     Let new_pdDsg = cat_api.get_new_item(lc_item)
 
-    ' Aktuelle Postgruppe ermiteln
+    ' Aktuelle Postgruppe ermitteln
     Dim cur_pgId As Integer
     Let cur_pgId = Me.cmb_cur_pgid.Value
 
     ' Post speichern
-    MsgBox cat_xapi.create_item(lc_item, new_pdDsg, cur_pgId), vbOKOnly, lc_item
+    MsgBox catpst_bapi.create_pstDtl(new_pdDsg, cur_pgId), vbOKOnly, lc_item
     Me.Requery
 End Sub
 
-
-' btn_delete
+'****************************************************************************************
+'*       Post löschen
+'* Version: 7.6
+'****************************************************************************************
 Private Sub btn_delete_Click()
     ' Gelöschten Post ermitteln
     Dim cur_pdId As Integer
     Let cur_pdId = Me!fld_id.Value
 
     ' Post löschen
-    MsgBox cat_xapi.delete_item(lc_item, cur_pdId), , lc_item
+    MsgBox catpst_bapi.delete_pstDtl(cur_pdId), , lc_item
     Me.Requery
 End Sub
 

@@ -42,7 +42,7 @@ End Sub
 '**********************************************************
 ' btn_close
 Private Sub btn_close_Click()
-    Call frm_xapi.cls_frm(Me.name, False)
+    Call frm_api.close_form(Me.name, False)
 End Sub
 
 
@@ -60,7 +60,8 @@ Private Sub btn_add_Click()
     Let cur_agId = Me.cmb_cur_agId.Value
 
     ' Konto speichern
-    MsgBox cat_xapi.create_item(lc_item, new_adDsg, cur_agId), vbOKOnly, lc_item
+'    MsgBox cat_xapi.create_item(lc_item, new_adDsg, cur_agId), vbOKOnly, lc_item
+    MsgBox catacc_bapi.create_accDtl(new_adDsg, cur_agId), vbOKOnly, lc_item
     Me.Requery
 End Sub
 
@@ -71,6 +72,7 @@ Private Sub btn_delete_Click()
     Let cur_adId = Me!fld_id.Value
 
     ' Post löschen
-    MsgBox cat_xapi.delete_item(lc_item, cur_adId), , lc_item
+'    MsgBox cat_xapi.delete_item(lc_item, cur_adId), , lc_item
+    MsgBox catacc_bapi.delete_accDtl(cur_adId), , lc_item
     Me.Requery
 End Sub

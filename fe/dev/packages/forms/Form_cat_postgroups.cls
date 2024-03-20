@@ -46,7 +46,7 @@ Private Sub btn_close_Click()
     Call cat_api.set_cur_taid(0)
     
     ' Formular schließen
-    Call frm_xapi.cls_frm(Me.name, False)
+    Call frm_api.close_form(Me.name, False)
 End Sub
 
 
@@ -56,35 +56,40 @@ Private Sub btn_detail_Click()
     Call cat_api.set_cur_pgid(Me!fld_id.Value)
     
     ' Formular Post öffnen
-    Call frm_xapi.opn_frm(env.gt_cat_pd)
+    Call frm_api.open_form(env.gt_cat_pd)
 End Sub
 
 
-'**********************************************************
-'*            Datensatzmanipulation
-'**********************************************************
+'************************** D A T E N M A N I P U L A T I O N ***************************
+'*******************************************|********************************************
+'*       Postgruppe hinzufügen
+'* Version: 7.6
+'****************************************************************************************
 ' btn_add
 Private Sub btn_add_Click()
     ' Neue Konte-Bezeichnung erhalten
     Dim new_pgDsg As String
     Let new_pgDsg = cat_api.get_new_item(lc_item)
 
-    ' Aktuelle Transaktion ermiteln
+    ' Aktuelle Transaktion ermitteln
     Dim cur_taId As Integer
     Let cur_taId = Me.cmb_cur_taid.Value
 
     ' Postgruppe speichern
-    MsgBox cat_xapi.create_item(lc_item, new_pgDsg, cur_taId), vbOKOnly, lc_item
+    MsgBox catpst_bapi.create_pstGrp(new_pgDsg, cur_taId), vbOKOnly, lc_item
     Me.Requery
 End Sub
 
-' btn_delete
+'****************************************************************************************
+'*       Postgruppe löschen
+'* Version: 7.6
+'****************************************************************************************
 Private Sub btn_delete_Click()
     ' Gelöschte Postgruppe ermitteln
     Dim cur_pgId As Integer
     Let cur_pgId = Me.fld_id
     
     ' Postgruppe löschen
-    MsgBox cat_xapi.delete_item(lc_item, cur_pgId), , lc_item
+    MsgBox catpst_bapi.delete_pstGrp(cur_pgId), , lc_item
     Me.Requery
 End Sub

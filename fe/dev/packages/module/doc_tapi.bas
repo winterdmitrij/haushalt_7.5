@@ -4,6 +4,11 @@ Attribute VB_Name = "doc_tapi"
 '= Version: 7.5
 '========================================================================================
 Option Compare Database
+Private Const c_docAst_viewName As String = "doc_assets_v"
+Private Const c_docBnk_viewName As String = "doc_banks_v"
+Private Const c_docDep_viewName As String = "doc_deposits_v"
+Private Const c_docExp_viewName As String = "doc_expenditures_v"
+Private Const c_docInc_viewName As String = "doc_incomes_v"
 
 
 '*************************************** P O S T ****************************************
@@ -83,15 +88,51 @@ Public Function calculate_docAmount(pin_docId As String, _
     Let calculate_docAmount = DSum("amt", pin_viewName, pin_cond)
 End Function
 
+
+
 '****************************************************************************************
-'*       Berechnet die Endsumme des Dokuments bzg den übergebenen Bedingungen
+'*       Prüft, ob der Post bereits benutzt wurde
 '* Version: 7.5
+'* ToDo: Verbessern! Vllt. eine Dok-Tabellen lieste, und durch Loop wenn l_inUse True mach weiter
 '****************************************************************************************
-Public Function select_cntPositions_by_pdId(pin_pdId As Integer) As Integer
-    ' ToDo: View, die alle Dokumente beinhaltet
-    Let select_cntPositions_by_pdId = 666 'DCount("amt", pin_viewName, pin_cond)
+Public Function check_pstDtl_inUse(pin_pdId As Integer) As Boolean
+    Dim l_inUse As Boolean
+    
+    Let l_inUse = DCount("pos_id", c_docExp_viewName, "pd_id=" & pin_pdId) > 0
+    
+    If Not l_inUse Then
+        Let l_inUse = DCount("pos_id", c_docBnk_viewName, "pd_id=" & pin_pdId) > 0
+    End If
+    
+    If Not l_inUse Then
+        Let l_inUse = DCount("pos_id", c_docInc_viewName, "pd_id=" & pin_pdId) > 0
+    End If
+    
+    ' Bei Deposits gibt keine Posten
+'    If Not l_inUse Then
+'        Let l_inUse = DCount("pos_id", c_docDep_viewName, "pd_id=" & pin_pdId) > 0
+'    End If
+    
+    If Not l_inUse Then
+        Let l_inUse = DCount("pos_id", c_docAst_viewName, "pd_id=" & pin_pdId) > 0
+    End If
+    
+    Let check_pstDtl_inUse = l_inUse
 End Function
 
+
+'****************************************************************************************
+'*       Prüft, ob das Konto bereits benutzt wurde
+'* Version: 7.5
+'* ToDo: Konten sind nur im Deposits-Dokumenten, Muss noch grb-Tabelle geprüft werden
+'*       zB: Sparkasse und Brieftasche geben Falsch zurück.
+'****************************************************************************************
+Public Function check_accDtl_inUse(pin_adId As Integer) As Boolean
+    Dim l_inUse As Boolean
+    Let l_inUse = DCount("pos_id", c_docDep_viewName, "ad_id=" & pin_adId) > 0
+    
+    Let check_accDtl_inUse = l_inUse
+End Function
 
 '**************************************** P U T *****************************************
 '*******************************************|********************************************

@@ -31,7 +31,7 @@ End Sub
 '**********************************************************
 ' btn_close
 Private Sub btn_close_Click()
-    Call frm_xapi.cls_frm(Me.name, False)
+    Call frm_api.close_form(Me.name, False)
 End Sub
 
 ' btn_detail
@@ -40,7 +40,7 @@ Private Sub btn_detail_Click()
     Call cat_api.set_cur_agId(Me.fld_id)
     
     ' Formular Konten öffnen
-    Call frm_xapi.opn_frm(env.gt_cat_ad)
+    Call frm_api.open_form(env.gt_cat_ad)
 End Sub
 
 
@@ -54,7 +54,8 @@ Private Sub btn_add_Click()
     Let new_agDsg = cat_api.get_new_item(lc_item)
    
     ' Kontengruppe speichern
-    MsgBox cat_xapi.create_item(lc_item, new_agDsg), vbOKOnly, lc_item
+    'MsgBox cat_xapi.create_item(lc_item, new_agDsg), vbOKOnly, lc_item
+    MsgBox catacc_bapi.create_accGrp(new_agDsg), vbOKOnly, lc_item
     Me.Requery
 End Sub
 
@@ -66,6 +67,7 @@ Private Sub btn_delete_Click()
     Let cur_agId = Me.fld_id
     
     ' Kontengruppe löschen
-    MsgBox cat_xapi.delete_item(lc_item, cur_agId), , lc_item
+'    MsgBox cat_xapi.delete_item(lc_item, cur_agId), , lc_item
+    MsgBox catacc_bapi.delete_accGrp(cur_agId), , lc_item
     Me.Requery
 End Sub
