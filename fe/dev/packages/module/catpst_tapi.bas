@@ -1,7 +1,11 @@
 Attribute VB_Name = "catpst_tapi"
 '========================================================================================
 '=                 Katalog "Posten" - Repositorie
+<<<<<<< HEAD
 '= Version: 7.6
+=======
+'= Version: 7.5
+>>>>>>> refs/remotes/origin/main
 '========================================================================================
 Option Compare Database
 Private Const c_pstGrp_tabName As String = "cat_postgroups"
@@ -12,7 +16,11 @@ Private Const c_catPst_viewName As String = "cat_posts_v"
 '*************************************** P O S T ****************************************
 '*******************************************|********************************************
 '*       Insertet ein neuen Eintrag in die Postgruppen-Tabelle
+<<<<<<< HEAD
 '* Version: 7.6
+=======
+'* Version: 7.5
+>>>>>>> refs/remotes/origin/main
 '****************************************************************************************
 Public Function insert_new_pstGrp(pin_pgDsg As String, _
                                   pin_taId As Integer) As Integer
@@ -34,7 +42,11 @@ End Function
 
 '****************************************************************************************
 '*       Insertet ein neuen Eintrag in die Posten-Tabelle
+<<<<<<< HEAD
 '* Version: 7.6
+=======
+'* Version: 7.5
+>>>>>>> refs/remotes/origin/main
 '****************************************************************************************
 Public Function insert_new_pstDtl(pin_pdDsg As String, _
                                   pin_pgId As Integer) As Integer
@@ -57,10 +69,17 @@ End Function
 
 '**************************************** G E T *****************************************
 '*******************************************|********************************************
+<<<<<<< HEAD
 '*       Gibt die ganze Zeile bzgl. Post-Id zurück
 '* Version: 7.6
 '****************************************************************************************
 Public Function read_pdRow_by_pdId(pin_pdId As Integer) As pstDtl_rowType
+=======
+'*       Gibt den Spalten-Wert bzgl. Post-Id zurück
+'* Version: 7.5
+'****************************************************************************************
+Public Function find_pdRow_by(pin_pdId As Integer) As pstDtl_rowType
+>>>>>>> refs/remotes/origin/main
 On Error GoTo exception
     Dim r_pstDtl As pstDtl_rowType
     
@@ -93,7 +112,11 @@ On Error GoTo exception
     End With
     
     ' Ergebnis zurückgeben
+<<<<<<< HEAD
     Let read_pdRow_by_pdId = r_pstDtl
+=======
+    Let find_pdRow_by = r_pstDtl
+>>>>>>> refs/remotes/origin/main
     GoTo ende
 
 exception:
@@ -105,21 +128,32 @@ ende:
 End Function
 
 '****************************************************************************************
+<<<<<<< HEAD
 '*       Prüft, ob die Postgruppe mit der Bezeichnung exixtiert
 '* Version: 7.6
+=======
+'*       Prüft, ob den Post mit dem Id exixtiert
+'* Version: 7.5
+>>>>>>> refs/remotes/origin/main
 '****************************************************************************************
 Public Function check_pgExist(pin_pgDsg As String) As Boolean
     Let check_pgExist = (DCount("pg_id", c_catPst_viewName, "pg_dsg='" & pin_pgDsg & "'") > 0)
 End Function
 
 '****************************************************************************************
+<<<<<<< HEAD
 '*       Prüft, ob den Post mit der Bezeichnung exixtiert
 '* Version: 7.6
+=======
+'*       Prüft, ob den Post mit dem Id exixtiert
+'* Version: 7.5
+>>>>>>> refs/remotes/origin/main
 '****************************************************************************************
 Public Function check_pdExist(pin_pdDsg As String) As Boolean
     Let check_pdExist = (DCount("pd_id", c_catPst_viewName, "pd_dsg='" & pin_pdDsg & "'") > 0)
 End Function
 
+<<<<<<< HEAD
 '****************************************************************************************
 '*       Prüft, ob die Postgruppe mit dem Id aktiv ist
 '* Version: 7.6
@@ -185,3 +219,11 @@ On Error GoTo exception
 exception:
     Let delete_pstDtl_by_pdId = 400  ' Failed
 End Function
+=======
+
+'************************************* D E L E T E **************************************
+'*******************************************|********************************************
+'*       DatenTyp definieren
+'* Version: 7.5
+'****************************************************************************************
+>>>>>>> refs/remotes/origin/main
