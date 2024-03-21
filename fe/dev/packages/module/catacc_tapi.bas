@@ -1,6 +1,6 @@
-ï»¿Attribute VB_Name = "catacc_tapi"
+Attribute VB_Name = "catacc_tapi"
 '========================================================================================
-'=                 Katalog "Konten" - Schnittstelle
+'=                 Katalog "Konten" - Repositorie
 '= Version:
 '========================================================================================
 Option Compare Database
@@ -58,7 +58,7 @@ End Function
 
 '**************************************** G E T *****************************************
 '*******************************************|********************************************
-'*       Gibt die ganze Zeile bzgl. Konto-Id zurÃ¼ck
+'*       Gibt die ganze Zeile bzgl. Konto-Id zurück
 '* Version: 7.6
 '****************************************************************************************
 Public Function read_adRow_by_adId(pin_adId As Integer) As accDtl_rowType
@@ -70,7 +70,7 @@ On Error GoTo exception
     Dim rcs_acc As Recordset
     Set rcs_acc = CurrentDb.OpenRecordset(c_catAcc_viewName, dbOpenDynaset)
     
-    ' Suchen und prï¿½fung, ob was gefunden wurde
+    ' Suchen und prüfung, ob was gefunden wurde
     Call rcs_acc.FindFirst("ad_id=" & pin_adId)
 
     If rcs_acc.NoMatch Then
@@ -94,7 +94,7 @@ On Error GoTo exception
 
     End With
 
-    ' Ergebnis zurï¿½ckgeben
+    ' Ergebnis zurückgeben
     Let read_adRow_by_adId = r_accDtl
     GoTo ende
 
@@ -107,7 +107,7 @@ ende:
 End Function
 
 '****************************************************************************************
-'*       Prï¿½ft, ob die Kontengruppe mit der Bezeichnung exixtiert
+'*       Prüft, ob die Kontengruppe mit der Bezeichnung exixtiert
 '* Version: 7.6
 '****************************************************************************************
 Public Function check_agExist(pin_agDsg As String) As Boolean
@@ -115,7 +115,7 @@ Public Function check_agExist(pin_agDsg As String) As Boolean
 End Function
 
 '****************************************************************************************
-'*       Prï¿½ft, ob das Konto mit der Bezeichnung exixtiert
+'*       Prüft, ob das Konto mit der Bezeichnung exixtiert
 '* Version: 7.6
 '****************************************************************************************
 Public Function check_adExist(pin_adDsg As String) As Boolean
@@ -123,7 +123,7 @@ Public Function check_adExist(pin_adDsg As String) As Boolean
 End Function
 
 '****************************************************************************************
-'*       Prï¿½ft, ob die Kontengruppe mit dem Id aktiv ist
+'*       Prüft, ob die Kontengruppe mit dem Id aktiv ist
 '* Version: 7.6
 '****************************************************************************************
 Public Function check_agActiv(pin_agId As Integer) As Boolean
@@ -131,7 +131,7 @@ Public Function check_agActiv(pin_agId As Integer) As Boolean
 End Function
 
 '****************************************************************************************
-'*       Prï¿½ft, ob das Konto mit dem Id aktiv ist
+'*       Prüft, ob das Konto mit dem Id aktiv ist
 '* Version: 7.6
 '****************************************************************************************
 Public Function check_adActiv(pin_adId As Integer) As Boolean
@@ -139,7 +139,7 @@ Public Function check_adActiv(pin_adId As Integer) As Boolean
 End Function
 
 '****************************************************************************************
-'*       Gibt die Konten-Anzahl zurï¿½ck, die zu den Kontengruppe-Id gehï¿½ren
+'*       Gibt die Konten-Anzahl zurück, die zu den Kontengruppe-Id gehören
 '* Version: 7.6
 '****************************************************************************************
 Public Function select_cntAccDtl_by_agId(pin_agId As Integer) As Integer
@@ -149,7 +149,7 @@ End Function
 
 '************************************* D E L E T E **************************************
 '*******************************************|********************************************
-'*       LÃ¶scht die Kontengruppe
+'*       Löscht die Kontengruppe
 '* Version: 7.6
 '****************************************************************************************
 Public Function delete_accGrp_by_agId(pin_agId As Integer) As Integer
@@ -169,7 +169,7 @@ exception:
 End Function
 
 '****************************************************************************************
-'*       LÃ¶scht das Konto
+'*       Löscht das Konto
 '* Version: 7.6
 '****************************************************************************************
 Public Function delete_accDtl_by_adId(pin_adId As Integer) As Integer

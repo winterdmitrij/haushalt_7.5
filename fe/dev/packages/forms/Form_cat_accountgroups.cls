@@ -7,15 +7,19 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = True
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
-'==========================================================
-'                  Katalog "Kontengruppen"
-'==========================================================
+'========================================================================================
+'=                 Katalog "Kontengruppen" - Formular
+'= Version: 7.
+'========================================================================================
 Option Compare Database
-Private Const lc_item As String = "Kontengruppe"
+Private Const c_titel As String = "Kontengruppe"
 
-'**********************************************************
-'*            Form
-'**********************************************************
+
+'*********************************** F O R M U L A R ************************************
+'*******************************************|********************************************
+'*       Formular laden
+'* Version: 7.
+'****************************************************************************************
 Private Sub Form_Load()
 '    ' Löschfunktion-Deaktivierung im set_userModus
 '    If is_deplMod Then
@@ -26,48 +30,56 @@ Private Sub Form_Load()
 End Sub
 
 
-'**********************************************************
-'*            Navigation
-'**********************************************************
-' btn_close
+'********************************* N A V I G A T I O N **********************************
+'*******************************************|********************************************
+'*       Formular schließen
+'* Version: 7.6
+'****************************************************************************************
 Private Sub btn_close_Click()
     Call frm_api.close_form(Me.name, False)
 End Sub
 
-' btn_detail
+'****************************************************************************************
+'*       Formular "Konten" öffnen
+'* Version: 7.6
+'****************************************************************************************
 Private Sub btn_detail_Click()
     ' Aktuelle Kontengruppe setzen
-    Call cat_api.set_cur_agId(Me.fld_id)
+    Call cat_bapi.set_cur_agId(Me.fld_id)
+    
+    ' Akt. Formular schließen
+    Call btn_close_Click
     
     ' Formular Konten öffnen
     Call frm_api.open_form(env.gt_cat_ad)
 End Sub
 
 
-'**********************************************************
-'*            Datensatzmanipulation
-'**********************************************************
-' btn_add
+'************************** D A T E N M A N I P U L A T I O N ***************************
+'*******************************************|********************************************
+'*       Kontengruppe hinzufügen
+'* Version: 7.6
+'****************************************************************************************
 Private Sub btn_add_Click()
     ' Neue Kontengruppe-Bezeichnung erhalten
     Dim new_agDsg As String
-    Let new_agDsg = cat_api.get_new_item(lc_item)
+    Let new_agDsg = cat_bapi.open_addDialog(c_titel)
    
     ' Kontengruppe speichern
-    'MsgBox cat_xapi.create_item(lc_item, new_agDsg), vbOKOnly, lc_item
-    MsgBox catacc_bapi.create_accGrp(new_agDsg), vbOKOnly, lc_item
+    MsgBox catacc_bapi.create_accGrp(new_agDsg), vbOKOnly, c_titel
     Me.Requery
 End Sub
 
-
-' btn_delete
+'****************************************************************************************
+'*       Kontengruppe löschen
+'* Version: 7.6
+'****************************************************************************************
 Private Sub btn_delete_Click()
     ' Gelöschte Kontengruppe ermitteln
     Dim cur_agId As Integer
     Let cur_agId = Me.fld_id
     
     ' Kontengruppe löschen
-'    MsgBox cat_xapi.delete_item(lc_item, cur_agId), , lc_item
-    MsgBox catacc_bapi.delete_accGrp(cur_agId), , lc_item
+    MsgBox catacc_bapi.delete_accGrp(cur_agId), , c_titel
     Me.Requery
 End Sub

@@ -44,10 +44,17 @@ End Function
 Public Function create_pstGrp(pin_pgDsg As String, _
                               pin_taId As Integer) As String
     Dim l_req As Integer
+    Dim l_msg As String
+    Let l_msg = "Die Postgruppe mit der Bezeichnung: '" & pin_pgDsg & "'"
     
 check:
+    If pin_pgDsg = "" Then
+        Let create_pstGrp = "Es wurde nichts hinzugefügt!"
+        Exit Function
+    End If
+    
     If catpst_tapi.check_pgExist(pin_pgDsg) Then
-        Let create_pstGrp = "Postgruppe '" & pin_pgDsg & "' existiert bereits."
+        Let create_pstGrp = l_msg & " existiert bereits!"
         Exit Function
     End If
     
@@ -55,9 +62,9 @@ create:
     Let l_req = catpst_tapi.insert_new_pstGrp(pin_pgDsg, pin_taId)
     
     If l_req = 200 Then
-        Let create_pstGrp = "Postgruppe '" & pin_pgDsg & "' wurde erfolgreich hinzugefügt!"
+        Let create_pstGrp = l_msg & " wurde erfolgreich hinzugefügt!"
     Else
-        Let create_pstGrp = "Postgruppe '" & pin_pgDsg & "' wurde nicht hinzugefügt!"
+        Let create_pstGrp = l_msg & " wurde nicht hinzugefügt!"
     End If
 End Function
 
@@ -68,10 +75,16 @@ End Function
 Public Function create_pstDtl(pin_pdDsg As String, _
                               pin_pgId As Integer) As String
     Dim l_req As Integer
-    
+    Dim l_msg As String
+    Let l_msg = "Der Post mit der Bezeichnung: '" & pin_pdDsg & "'"
 check:
+    If pin_pdDsg = "" Then
+        Let create_pstDtl = "Es wurde nichts hinzugefügt!"
+        Exit Function
+    End If
+    
     If catpst_tapi.check_pdExist(pin_pdDsg) Then
-        Let create_pstDtl = "Post '" & pin_pdDsg & "' existiert bereits."
+        Let create_pstDtl = l_msg & " existiert bereits!"
         Exit Function
     End If
     
@@ -79,9 +92,9 @@ create:
     Let l_req = catpst_tapi.insert_new_pstDtl(pin_pdDsg, pin_pgId)
     
     If l_req = 200 Then
-        Let create_pstDtl = "Post '" & pin_pdDsg & "' wurde erfolgreich hinzugefügt!"
+        Let create_pstDtl = l_msg & " wurde erfolgreich hinzugefügt!"
     Else
-        Let create_pstDtl = "Post '" & pin_pdDsg & "' wurde nicht hinzugefügt!"
+        Let create_pstDtl = l_msg & " wurde nicht hinzugefügt!"
     End If
 End Function
 
@@ -139,7 +152,7 @@ check:
     ' Anzahl der Posten, die in Documenten bereits benutzt wurde
     If doc_api.get_pstDtl_inUse(pin_pdId) Then
         Let delete_pstDtl = l_msg & " darf nicht gelöscht werden!" & vbNewLine & _
-                            "Es wurde der Post in Dokumenten benutzt."
+                            "Es wurde den Post in Dokumenten benutzt."
         
         Exit Function
     End If

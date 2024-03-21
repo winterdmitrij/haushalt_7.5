@@ -27,7 +27,7 @@ End Type
 
 '************************************ G E T T E R S *************************************
 '*******************************************|********************************************
-'*       Gibt den ganze Konto-Informazion zurï¿½ck bzgl. Konto-Id in form des Records
+'*       Gibt den ganze Konto-Informazion zurück bzgl. Konto-Id in form des Records
 '* Version: 7.6
 '****************************************************************************************
 Public Function get_adRow(pin_adId As Integer) As accDtl_rowType
@@ -35,8 +35,9 @@ Public Function get_adRow(pin_adId As Integer) As accDtl_rowType
 End Function
 
 '****************************************************************************************
-'*       Gibt eine volle Liste der Konten zurï¿½ck
+'*       Gibt eine volle Liste der Konten zurück
 '* Version: 7.5
+'* ToDo: Vllt. durch Tapi read_allAccounds?
 '****************************************************************************************
 Public Function get_listOfAccouns() As accDtl_rowType()
 On Error GoTo exception
@@ -56,7 +57,7 @@ On Error GoTo exception
             Let l_idx = l_idx + 1
             ReDim Preserve arr_lstAcc(l_idx)
             
-            ' Array befï¿½llen
+            ' Array befüllen
             Let arr_lstAcc(l_idx).rank = !rank
             Let arr_lstAcc(l_idx).ag_id = !ag_id
             Let arr_lstAcc(l_idx).ag_dsg = !ag_dsg
@@ -72,7 +73,7 @@ On Error GoTo exception
         Loop
     End With
     
-    ' Ergebnis zurï¿½ckgeben
+    ' Ergebnis zurückgeben
     Let get_listOfAccouns = arr_lstAcc
     GoTo ende
 
@@ -92,10 +93,16 @@ End Function
 '****************************************************************************************
 Public Function create_accGrp(pin_agDsg As String) As String
     Dim l_req As Integer
-
+    Dim l_msg As String
+    Let l_msg = "Die Kontengruppe mit der Bezeichnung: '" & pin_agDsg & "'"
+    
 check:
+    If pin_agDsg = "" Then
+        Exit Function
+    End If
+
     If catacc_tapi.check_agExist(pin_agDsg) Then
-        Let create_accGrp = "Kontengruppe '" & pin_agDsg & "' existiert bereits."
+        Let create_accGrp = l_msg & " existiert bereits!"
         Exit Function
     End If
 
@@ -103,9 +110,9 @@ create:
     Let l_req = catacc_tapi.insert_new_accGrp(pin_agDsg)
 
     If l_req = 200 Then
-        Let create_accGrp = "Kontengruppe '" & pin_agDsg & "' wurde erfolgreich hinzugefï¿½gt!"
+        Let create_accGrp = l_msg & " wurde erfolgreich hinzugefögt!"
     Else
-        Let create_accGrp = "Kontengruppe '" & pin_agDsg & "' wurde nicht hinzugefï¿½gt!"
+        Let create_accGrp = l_msg & " wurde nicht hinzugefögt!"
     End If
 End Function
 
@@ -116,10 +123,16 @@ End Function
 Public Function create_accDtl(pin_adDsg As String, _
                               pin_agId As Integer) As String
     Dim l_req As Integer
-
+    Dim l_msg As String
+    Let l_msg = "Das Konto mit der Bezeichnung: '" & pin_adDsg & "'"
+    
 check:
+    If pin_adDsg = "" Then
+        Exit Function
+    End If
+    
     If catacc_tapi.check_adExist(pin_adDsg) Then
-        Let create_accDtl = "Konto '" & pin_adDsg & "' existiert bereits."
+        Let create_accDtl = l_msg & " existiert bereits!"
         Exit Function
     End If
 
@@ -127,16 +140,16 @@ create:
     Let l_req = catacc_tapi.insert_new_accDtl(pin_adDsg, pin_agId)
 
     If l_req = 200 Then
-        Let create_accDtl = "Konto '" & pin_adDsg & "' wurde erfolgreich hinzugefï¿½gt!"
+        Let create_accDtl = l_msg & " wurde erfolgreich hinzugefögt!"
     Else
-        Let create_accDtl = "Konto '" & pin_adDsg & "' wurde nicht hinzugefï¿½gt!"
+        Let create_accDtl = l_msg & " wurde nicht hinzugefögt!"
     End If
 End Function
 
 
-'************************************ L ï¿½ S C H E N *************************************
+'************************************ L Ö S C H E N *************************************
 '*******************************************|********************************************
-'*       Lï¿½scht eine Kontengruppe
+'*       Löscht eine Kontengruppe
 '* Version: 7.6
 '* ToDo: Check-Funktionen auslagern
 '****************************************************************************************
@@ -147,16 +160,16 @@ Public Function delete_accGrp(pin_agId As Integer) As String
 
 check:
     ' ToDo: *
-    ' Anzahl der von der Kontengruppe abhï¿½ngigen Konten
+    ' Anzahl der von der Kontengruppe abhöngigen Konten
     If catacc_tapi.select_cntAccDtl_by_agId(pin_agId) > 0 Then
-        Let delete_accGrp = l_msg & " darf nicht gelï¿½scht werden!" & vbNewLine & _
-                            "Es gibt die von der Kontengruppe abhï¿½ngige Konten."
+        Let delete_accGrp = l_msg & " darf nicht gelöscht werden!" & vbNewLine & _
+                            "Es gibt die von der Kontengruppe abhöngige Konten."
         Exit Function
     End If
 
-    ' Prï¿½fen, ob die Kontengruppe aktiv ist
+    ' Prüfen, ob die Kontengruppe aktiv ist
     If catacc_tapi.check_agActiv(pin_agId) Then
-        Let delete_accGrp = l_msg & " darf nicht gelï¿½scht werden!" & vbNewLine & _
+        Let delete_accGrp = l_msg & " darf nicht gelöscht werden!" & vbNewLine & _
                             "Die Kontengruppe ist aktiv."
         Exit Function
     End If
@@ -165,34 +178,34 @@ delete:
     Let l_req = catacc_tapi.delete_accGrp_by_agId(pin_agId)
 
     If l_req = 200 Then
-        Let delete_accGrp = l_msg & " wurde erfolgreich gelï¿½scht!"
+        Let delete_accGrp = l_msg & " wurde erfolgreich gelöscht!"
     Else
-        Let delete_accGrp = l_msg & " wurde nicht gelï¿½scht!"
+        Let delete_accGrp = l_msg & " wurde nicht gelöscht!"
     End If
 End Function
 
 '****************************************************************************************
-'*       Lï¿½scht einen Konten
+'*       Löscht einen Konten
 '* Version: 7.6
 '* ToDo: Check-Funktionen auslagern
 '****************************************************************************************
 Public Function delete_accDtl(pin_adId As Integer) As String
     Dim l_req As Integer
     Dim l_msg As String
-    Let l_msg = "Der Konten mit dem Id: " & pin_adId
+    Let l_msg = "Das Konto mit dem Id: " & pin_adId
 
 check:
     ' ToDo: *
     ' Anzahl der Kontenen, die in Documenten bereits benutzt wurde
     If doc_api.get_accDtl_inUse(pin_adId) Then
-        Let delete_accDtl = l_msg & " darf nicht gelï¿½scht werden!" & vbNewLine & _
+        Let delete_accDtl = l_msg & " darf nicht gelöscht werden!" & vbNewLine & _
                             "Es wurde das Konto in Dokumenten benutzt."
         Exit Function
     End If
 
-    ' Prï¿½fen, ob der Konten aktiv ist
+    ' Pröfen, ob der Konten aktiv ist
     If catacc_tapi.check_adActiv(pin_adId) Then
-        Let delete_accDtl = l_msg & " darf nicht gelï¿½scht werden!" & vbNewLine & _
+        Let delete_accDtl = l_msg & " darf nicht gelöscht werden!" & vbNewLine & _
                             "Das Konto ist aktiv."
         Exit Function
     End If
@@ -201,8 +214,8 @@ delete:
     Let l_req = catacc_tapi.delete_accDtl_by_adId(pin_adId)
 
     If l_req = 200 Then
-        Let delete_accDtl = l_msg & " wurde erfolgreich gelï¿½scht!"
+        Let delete_accDtl = l_msg & " wurde erfolgreich gelöscht!"
     Else
-        Let delete_accDtl = l_msg & " wurde nicht gelï¿½scht!"
+        Let delete_accDtl = l_msg & " wurde nicht gelöscht!"
     End If
 End Function

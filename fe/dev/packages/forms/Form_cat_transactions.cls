@@ -7,24 +7,32 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = True
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
-'==========================================================
-'                  Katalog "Transaktionen"
-'==========================================================
+'========================================================================================
+'=                 Katalog "Transaktionen" - Formular
+'= Version: 7.6
+'========================================================================================
 Option Compare Database
 
-'**********************************************************
-'*                 Schaltflächen
-'**********************************************************
-' btn_close
+'********************************* N A V I G A T I O N **********************************
+'*******************************************|********************************************
+'*       Formular schließen
+'* Version: 7.6
+'****************************************************************************************
 Private Sub btn_close_Click()
-    Call frm_xapi.cls_frm(Me.name, False)
+    Call frm_api.close_form(Me.name, False)
 End Sub
 
-' btn_detail
+'****************************************************************************************
+'*       Formular "Postgruppe" öffnen
+'* Version: 7.6
+'****************************************************************************************
 Private Sub btn_detail_Click()
     ' Aktuelle Transaktion setzen
-    Call cat_api.set_cur_taid(Me.fld_id)
+    Call cat_bapi.set_cur_taId(Me.fld_id)
+    
+    ' Akt. Formular schließen
+    Call btn_close_Click
     
     ' Formular Postgruppen öffnen
-    Call frm_xapi.opn_frm(env.gt_cat_pg)
+    Call frm_api.open_form(env.gt_cat_pg)
 End Sub
